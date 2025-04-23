@@ -1,0 +1,216 @@
+/* Import Google Fonts (já incluso no HTML via <link>) */
+/* @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&family=Luckiest+Guy&display=swap'); */
+
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start; /* Alinha ao topo para o título ficar bem visível */
+    min-height: 100vh;
+    font-family: 'Poppins', sans-serif; /* Fonte padrão */
+    background: linear-gradient(135deg, #6dd5ed, #2193b0); /* Gradiente azul legal */
+    color: #333;
+    text-align: center;
+    padding-top: 30px; /* Espaço no topo */
+    overflow-x: hidden; /* Previne scroll horizontal */
+}
+
+h1 {
+    font-family: 'Luckiest Guy', cursive; /* Fonte especial para o título */
+    font-size: 3.5em; /* Maior */
+    color: #ffffff; /* Branco */
+    text-shadow: 3px 3px 0px #0c4a5a, /* Sombra forte para efeito 3D */
+                 6px 6px 0px rgba(0,0,0,0.2); /* Sombra suave adicional */
+    margin-bottom: 30px;
+}
+
+#connection-area, #game-area {
+    background-color: rgba(255, 255, 255, 0.9); /* Fundo branco semi-transparente */
+    padding: 30px 40px; /* Mais padding */
+    border-radius: 20px; /* Bordas mais arredondadas */
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2); /* Sombra mais pronunciada */
+    margin-top: 20px;
+    min-width: 350px; /* Um pouco maior */
+    max-width: 600px; /* Largura máxima */
+    border: 3px solid #ffffff; /* Borda branca */
+    transition: all 0.3s ease; /* Transição suave para .hidden */
+}
+
+.hidden {
+    display: none;
+    /* Poderia adicionar animação de fade-out/in aqui se quisesse */
+}
+
+/* Estilo para a barra de "cabo de guerra" */
+#tug-bar-container {
+    width: 90%; /* Ocupar mais espaço */
+    height: 40px; /* Mais alta */
+    background: linear-gradient(to right, #f8b195, #f67280, #c06c84); /* Gradiente na barra inteira (opcional) */
+    background-color: #e9ecef; /* Cor sólida como fallback */
+    border: 3px solid #6c757d; /* Borda mais grossa */
+    margin: 30px auto;
+    position: relative;
+    overflow: hidden;
+    border-radius: 10px; /* Bordas arredondadas */
+    box-shadow: inset 0 2px 5px rgba(0,0,0,0.2); /* Sombra interna */
+}
+
+/* Marcador central */
+#tug-marker {
+    width: 15px; /* Mais grosso */
+    height: 100%;
+    background-color: #ff414d; /* Vermelho vibrante */
+    border-left: 2px solid #a01d26; /* Detalhe na borda */
+    border-right: 2px solid #a01d26;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    transition: left 0.1s linear;
+    box-shadow: 0 0 8px rgba(255, 65, 77, 0.7); /* Brilho vermelho */
+}
+
+/* Estilo geral dos Botões */
+button {
+    padding: 18px 35px; /* Bem maiores */
+    font-size: 1.3em; /* Fonte maior */
+    font-weight: 700; /* Negrito (Poppins) */
+    cursor: pointer;
+    margin: 10px 5px; /* Mais margem */
+    border: none;
+    border-radius: 12px; /* Mais arredondado */
+    color: white;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.4); /* Sombra no texto */
+    transition: all 0.15s ease; /* Transição rápida para clique */
+    box-shadow: 0 5px 0px #00000030; /* Sombra inferior para efeito 3D */
+    position: relative; /* Para o efeito de clique */
+    outline: none; /* Remove outline padrão do navegador */
+}
+
+button:hover:not(:disabled) {
+    filter: brightness(1.1); /* Deixa um pouco mais brilhante */
+    transform: translateY(-2px); /* Levanta um pouco */
+    box-shadow: 0 7px 0px #00000030;
+}
+
+button:active:not(:disabled) {
+    transform: translateY(2px); /* Empurra para baixo */
+    box-shadow: 0 2px 0px #00000030; /* Sombra diminui */
+    filter: brightness(0.9); /* Escurece um pouco */
+}
+
+button:disabled {
+    background-color: #b0bec5; /* Cinza mais claro */
+    color: #607d8b;
+    cursor: not-allowed;
+    box-shadow: 0 5px 0px #78909c80; /* Sombra diferente para desabilitado */
+    text-shadow: none;
+}
+
+/* Cores específicas dos Botões */
+#connect-button {
+    background-color: #007bff; /* Azul padrão */
+    box-shadow: 0 5px 0px #0056b3;
+}
+#connect-button:disabled { /* Estilo específico quando desabilitado se necessário */
+     background-color: #6c757d;
+     box-shadow: 0 5px 0px #495057;
+}
+
+#ready-button {
+    background-color: #ffc107; /* Amarelo */
+    box-shadow: 0 5px 0px #c79100;
+}
+#ready-button:hover:not(:disabled) { background-color: #ffca2c; }
+#ready-button:disabled { /* Pode mudar a cor quando espera */
+    background-color: #ffca2c; /* Mantém amarelo mas sem efeito */
+    box-shadow: 0 5px 0px #c7910080;
+}
+
+
+#click-button {
+    background-color: #28a745; /* Verde */
+    box-shadow: 0 5px 0px #19692c;
+    /* Animação sutil para chamar atenção quando ativo? */
+    /* animation: pulse 1.5s infinite ease-in-out; */
+}
+#click-button:hover:not(:disabled) { background-color: #2dbf4e; }
+#click-button:disabled {
+    background-color: #6c757d; /* Cinza quando não pode clicar */
+    box-shadow: 0 5px 0px #495057;
+}
+
+/* Input de texto */
+input[type="text"] {
+    padding: 12px 15px; /* Mais padding */
+    margin-right: 8px;
+    border: 2px solid #ced4da; /* Borda suave */
+    border-radius: 8px; /* Arredondado */
+    font-size: 1.1em; /* Fonte maior */
+    font-family: 'Poppins', sans-serif;
+    outline: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+input[type="text"]:focus {
+    border-color: #007bff; /* Destaca borda ao focar */
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25); /* Brilho suave ao focar */
+}
+
+/* Textos de Status e Informação */
+#timer, #countdown, #result, #status-message, #connection-status, #my-id-label, #my-id {
+    margin-top: 15px;
+    font-size: 1.2em; /* Maior */
+    font-weight: 700; /* Negrito */
+    min-height: 1.5em;
+    color: #495057; /* Cor mais escura para leitura */
+}
+#my-id {
+    color: #0056b3; /* Destaca o ID */
+    background-color: #e9ecef;
+    padding: 2px 8px;
+    border-radius: 5px;
+    display: inline-block; /* Para o background funcionar */
+}
+
+#countdown {
+    color: #fd7e14; /* Laranja para contagem */
+    font-size: 1.8em; /* Bem grande */
+    font-weight: 700;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+}
+
+#result {
+    color: #1a7e3a; /* Verde para resultado positivo (ajustar se for derrota) */
+    font-size: 1.4em;
+    font-weight: 700;
+}
+#connection-status {
+    color: #5a6268;
+}
+
+
+/* Opcional: Animação de pulso para o botão de clique quando ativo */
+/* @keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+} */
+
+/* Pequenos ajustes para telas menores (exemplo) */
+@media (max-width: 600px) {
+    h1 {
+        font-size: 2.5em;
+    }
+    #connection-area, #game-area {
+        min-width: 90%;
+        padding: 20px;
+    }
+    button {
+        padding: 15px 25px;
+        font-size: 1.1em;
+    }
+    input[type="text"] {
+        font-size: 1em;
+        padding: 10px 12px;
+    }
+}

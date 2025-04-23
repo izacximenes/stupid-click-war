@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cabo de Guerra de Cliques - WebRTC</title>
+          
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&family=Luckiest+Guy&display=swap" rel="stylesheet">
+
+    
+    <link rel="stylesheet" href="style.css">
+    <!-- Inclui a biblioteca PeerJS via CDN -->
+    <script src="https://unpkg.com/peerjs@1.4.7/dist/peerjs.min.js"></script>
+</head>
+<body>
+    <h1>Cabo de Guerra de Cliques</h1>
+
+    <div id="connection-area">
+        <p>Seu ID: <strong id="my-id">Aguardando...</strong></p>
+        <input type="text" id="remote-id-input" placeholder="ID do Oponente">
+        <button id="connect-button">Conectar</button>
+        <p id="connection-status">Status: Desconectado</p>
+    </div>
+
+    <div id="game-area" class="hidden">
+        <div id="status-message">Aguardando oponente...</div>
+
+        <div id="tug-bar-container">
+            <div id="tug-marker"></div>
+        </div>
+
+        <button id="click-button" disabled>Clique Aqui!</button>
+        <button id="ready-button">Estou Pronto!</button>
+
+        <div id="timer">Tempo: 20s</div>
+        <div id="countdown"></div>
+        <div id="result"></div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
