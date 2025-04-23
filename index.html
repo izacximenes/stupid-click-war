@@ -1,52 +1,82 @@
 <!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cabo de Guerra de Cliques - Fullscreen</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&family=Luckiest+Guy&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+<html lang="en">
+  <!-- Changed lang to en -->
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Updated Title -->
+    <title>StupidClickWar</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&family=Luckiest+Guy&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
     <script src="https://unpkg.com/peerjs@1.4.7/dist/peerjs.min.js"></script>
-</head>
-<body>
-    <h1>Cabo de Guerra de Cliques</h1>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+  </head>
+  <body>
+    <!-- Updated Game Title -->
+    <h1>StupidClickWar</h1>
 
-    <!-- Área de Conexão (Inicialmente visível) -->
+    <!-- Connection Area (Initially visible) -->
     <div id="connection-group">
-        <p>Seu ID: <strong id="my-id">Aguardando...</strong></p>
-        <div> <!-- Div para agrupar input e botão -->
-            <input type="text" id="remote-id-input" placeholder="ID do Oponente">
-            <button id="connect-button">Conectar</button>
-        </div>
-        <p id="connection-status">Status: Desconectado</p>
+      <!-- Translated Text -->
+      <p>Your ID: <strong id="my-id">Waiting...</strong></p>
+      <div>
+        <!-- Translated Placeholder -->
+        <input type="text" id="remote-id-input" placeholder="Opponent's ID" />
+        <!-- Translated Button -->
+        <button id="connect-button">Connect</button>
+      </div>
+
+      <!-- **** ADDED INVITE AREA **** -->
+      <div id="invite-area" style="margin-top: 15px">
+        <button id="invite-button" disabled>Invite Friend</button>
+        <p
+          id="invite-link-display"
+          style="
+            margin-top: 8px;
+            font-size: 0.9em;
+            color: #0056b3;
+            word-break: break-all;
+            display: none;
+          "
+        ></p>
+      </div>
+      <!-- ************************** -->
+
+      <!-- Translated Text -->
+      <p id="connection-status">Status: Disconnected</p>
     </div>
 
-    <!-- Área Principal do Jogo (Inicialmente oculta) -->
+    <!-- Main Game Area (Initially hidden) -->
     <div id="game-group" class="hidden">
+      <div id="status-overlay">
+        <!-- Translated Text -->
+        <div id="status-message">Waiting for opponent...</div>
+        <div id="countdown"></div>
+        <div id="result"></div>
+      </div>
 
-        <div id="status-overlay"> <!-- Para mensagens flutuantes -->
-            <div id="status-message">Aguardando oponente...</div>
-            <div id="countdown"></div>
-            <div id="result"></div>
-        </div>
+      <!-- Translated Text -->
+      <div id="timer">Time: 20s</div>
 
-        <div id="timer">Tempo: 20s</div>
+      <div id="tug-bar-container">
+        <div id="player1-fill"></div>
+        <div id="player2-fill"></div>
+        <div id="center-line"></div>
+      </div>
 
-        <div id="tug-bar-container">
-            <div id="player1-fill"></div> <!-- Preenchimento do Jogador 1 (Você) -->
-            <div id="player2-fill"></div> <!-- Preenchimento do Jogador 2 (Oponente) -->
-            <div id="center-line"></div> <!-- Linha central opcional -->
-        </div>
-
-        <div class="controls">
-             <button id="click-button" disabled>Clique Aqui!</button>
-             <button id="ready-button">Estou Pronto!</button>
-        </div>
-
+      <div class="controls">
+        <!-- Translated Button -->
+        <button id="click-button" disabled>Click Me!</button>
+        <!-- Translated Button -->
+        <button id="ready-button">I'm Ready!</button>
+      </div>
     </div>
 
     <script src="script.js"></script>
-</body>
+  </body>
 </html>

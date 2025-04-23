@@ -180,6 +180,7 @@ button:disabled {
 }
 
 #ready-button {
+    margin-top: 20px;
     background-color: var(--warning-color);
     box-shadow: 0 4px 0px var(--warning-color-dark);
 }
@@ -341,4 +342,86 @@ input[type="text"]:focus {
      }
      #status-message, #result { font-size: 1.2em; }
      #countdown { font-size: 4em; }
+}
+
+#invite-button {
+    background-color: #6f42c1; /* Vibrant Purple */
+    box-shadow: 0 4px 0px #5a349b; /* Darker purple shadow */
+    padding: 12px 25px; /* Slightly smaller padding than game buttons? Optional */
+    font-size: 1.1em;  /* Slightly smaller font? Optional */
+}
+
+/* Optional: Adjust hover/active specifically if needed,
+   otherwise it inherits from the general button:hover/active rules */
+#invite-button:hover:not(:disabled) {
+    background-color: #8358d1;
+    /* transform/box-shadow inherited from general button rule */
+}
+
+/* Ensure disabled style is consistent */
+#invite-button:disabled {
+    background-color: #b0bec5 !important; /* Uses general disabled style */
+    color: #607d8b !important;
+    box-shadow: 0 4px 0px #78909c80 !important;
+}
+
+
+#status-overlay.status-win,
+#status-overlay.status-loss,
+#status-overlay.status-draw {
+  background-color: transparent; /* Remove default dark background */
+  color: var(--text-light);      /* Default to light text */
+  padding: 25px 40px; /* Slightly more padding? */
+  border: 3px solid rgba(255, 255, 255, 0.7); /* Add a border */
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3); /* More pronounced shadow */
+}
+
+/* Style for Winning */
+#status-overlay.status-win {
+  background-color: #90ee90cc; /* Light Green semi-transparent */
+  /* border-color: #28a745; */ /* Optional darker green border */
+  color: #1a3a1a; /* Darker green text for better contrast */
+}
+#status-overlay.status-win #result { /* Target the result text specifically */
+    color: #145a32; /* Even darker green for the main message */
+    font-weight: bold;
+}
+
+
+/* Style for Losing */
+#status-overlay.status-loss {
+  background-color: #f08080cc; /* Light Coral semi-transparent */
+  /* border-color: #dc3545; */ /* Optional darker red border */
+   color: #4d1a1a; /* Darker red text for better contrast */
+}
+#status-overlay.status-loss #result { /* Target the result text specifically */
+    color: #8b0000; /* Dark Red for the main message */
+    font-weight: bold;
+}
+
+
+/* Style for Draw (Optional, can rely on default if preferred) */
+#status-overlay.status-draw {
+  background-color: #adb5bdcc; /* Light Grey semi-transparent */
+  /* border-color: #6c757d; */ /* Optional darker grey border */
+   color: #343a40; /* Dark grey text */
+}
+#status-overlay.status-draw #result {
+    color: #212529;
+    font-weight: bold;
+}
+
+
+/* Ensure text inside overlay adapts (adjust font sizes if needed) */
+#status-overlay.status-win #result,
+#status-overlay.status-loss #result,
+#status-overlay.status-draw #result {
+    font-size: 1.6em; /* Make result text prominent */
+    margin-bottom: 5px;
+}
+#status-overlay.status-win span, /* Target appended score spans */
+#status-overlay.status-loss span,
+#status-overlay.status-draw span {
+    font-size: 0.9em; /* Make score slightly smaller */
+    opacity: 0.9;
 }
