@@ -1,216 +1,344 @@
-/* Import Google Fonts (já incluso no HTML via <link>) */
+/* Import Google Fonts */
 /* @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&family=Luckiest+Guy&display=swap'); */
+
+:root {
+    /* Definindo cores como variáveis para fácil customização */
+    --player1-color: #28a745; /* Verde */
+    --player1-color-dark: #19692c;
+    --player2-color: #dc3545; /* Vermelho */
+    --player2-color-dark: #a71d2a;
+    --bar-background: #e9ecef;
+    --bar-border: #6c757d;
+    --text-light: #ffffff;
+    --text-dark: #343a40;
+    --accent-color: #007bff; /* Azul para conexão */
+    --accent-color-dark: #0056b3;
+    --warning-color: #ffc107; /* Amarelo para pronto/aviso */
+    --warning-color-dark: #c79100;
+}
+
+html {
+    box-sizing: border-box;
+}
+*, *:before, *:after {
+    box-sizing: inherit;
+}
 
 body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: flex-start; /* Alinha ao topo para o título ficar bem visível */
+    justify-content: space-between; /* Empurra elementos para topo/baixo */
     min-height: 100vh;
-    font-family: 'Poppins', sans-serif; /* Fonte padrão */
-    background: linear-gradient(135deg, #6dd5ed, #2193b0); /* Gradiente azul legal */
-    color: #333;
+    width: 100vw; /* Garante largura total */
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(145deg, #74ebd5 0%, #acb6e5 100%); /* Novo Gradiente Suave */
+    color: var(--text-dark);
     text-align: center;
-    padding-top: 30px; /* Espaço no topo */
+    padding: 20px;
+    margin: 0; /* Remove margem padrão do body */
     overflow-x: hidden; /* Previne scroll horizontal */
 }
 
 h1 {
-    font-family: 'Luckiest Guy', cursive; /* Fonte especial para o título */
-    font-size: 3.5em; /* Maior */
-    color: #ffffff; /* Branco */
-    text-shadow: 3px 3px 0px #0c4a5a, /* Sombra forte para efeito 3D */
-                 6px 6px 0px rgba(0,0,0,0.2); /* Sombra suave adicional */
-    margin-bottom: 30px;
+    font-family: 'Luckiest Guy', cursive;
+    font-size: clamp(2.5em, 8vw, 4.5em); /* Tamanho responsivo */
+    color: var(--text-light);
+    text-shadow: 3px 3px 0px rgba(0, 0, 0, 0.2),
+                 6px 6px 0px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
+    width: 100%; /* Ocupa a largura para centralizar corretamente */
 }
 
-#connection-area, #game-area {
-    background-color: rgba(255, 255, 255, 0.9); /* Fundo branco semi-transparente */
-    padding: 30px 40px; /* Mais padding */
-    border-radius: 20px; /* Bordas mais arredondadas */
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2); /* Sombra mais pronunciada */
-    margin-top: 20px;
-    min-width: 350px; /* Um pouco maior */
-    max-width: 600px; /* Largura máxima */
-    border: 3px solid #ffffff; /* Borda branca */
-    transition: all 0.3s ease; /* Transição suave para .hidden */
+/* Grupos de Elementos */
+#connection-group, #game-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 700px; /* Limita largura máxima do conteúdo central */
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.6); /* Fundo levemente transparente */
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    margin-bottom: auto; /* Empurra para baixo se houver espaço */
+}
+
+#game-group {
+     margin-top: auto; /* Empurra para cima se houver espaço */
+     justify-content: center; /* Centraliza itens quando visível */
+     background-color: transparent; /* Game group não precisa de fundo próprio */
+     box-shadow: none;
+     padding: 0; /* Remove padding do grupo do jogo */
 }
 
 .hidden {
-    display: none;
-    /* Poderia adicionar animação de fade-out/in aqui se quisesse */
+    display: none !important; /* Garante que fique oculto */
 }
 
 /* Estilo para a barra de "cabo de guerra" */
 #tug-bar-container {
-    width: 90%; /* Ocupar mais espaço */
-    height: 40px; /* Mais alta */
-    background: linear-gradient(to right, #f8b195, #f67280, #c06c84); /* Gradiente na barra inteira (opcional) */
-    background-color: #e9ecef; /* Cor sólida como fallback */
-    border: 3px solid #6c757d; /* Borda mais grossa */
+    width: 100%; /* Ocupa a largura do container pai (#game-group) */
+    max-width: 800px; /* Ou um valor fixo maior */
+    height: 50px; /* Mais alta */
+    background-color: var(--bar-background);
+    border: 4px solid var(--bar-border);
     margin: 30px auto;
     position: relative;
     overflow: hidden;
-    border-radius: 10px; /* Bordas arredondadas */
-    box-shadow: inset 0 2px 5px rgba(0,0,0,0.2); /* Sombra interna */
+    border-radius: 25px; /* Totalmente arredondada */
+    box-shadow: inset 0 4px 8px rgba(0,0,0,0.15);
+    display: flex; /* Usa flexbox para alinhar os preenchimentos */
+    transition: transform 0.2s ease-out; /* Efeito de shake opcional */
 }
 
-/* Marcador central */
-#tug-marker {
-    width: 15px; /* Mais grosso */
+/* Barra pode tremer um pouco com cliques (adicionar classe via JS) */
+#tug-bar-container.shake {
+    animation: shake 0.1s ease-in-out 2;
+}
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-3px); }
+  75% { transform: translateX(3px); }
+}
+
+
+/* Preenchimentos dos jogadores */
+#player1-fill, #player2-fill {
     height: 100%;
-    background-color: #ff414d; /* Vermelho vibrante */
-    border-left: 2px solid #a01d26; /* Detalhe na borda */
-    border-right: 2px solid #a01d26;
-    position: absolute;
-    top: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    transition: left 0.1s linear;
-    box-shadow: 0 0 8px rgba(255, 65, 77, 0.7); /* Brilho vermelho */
+    transition: width 0.15s cubic-bezier(0.25, 0.1, 0.25, 1); /* Transição suave da largura */
+    box-shadow: inset 0 0 10px rgba(0,0,0,0.2); /* Sombra interna sutil */
 }
 
-/* Estilo geral dos Botões */
+#player1-fill {
+    background: linear-gradient(to right, var(--player1-color-dark), var(--player1-color));
+    border-right: 2px solid rgba(0,0,0,0.2); /* Linha de separação sutil */
+     border-radius: 25px 0 0 25px; /* Arredonda só a borda esquerda */
+}
+
+#player2-fill {
+    background: linear-gradient(to left, var(--player2-color-dark), var(--player2-color));
+    border-left: 2px solid rgba(0,0,0,0.2); /* Linha de separação sutil */
+    border-radius: 0 25px 25px 0; /* Arredonda só a borda direita */
+}
+
+/* Linha central (opcional, para referência visual) */
+#center-line {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background-color: rgba(255, 255, 255, 0.5);
+    transform: translateX(-50%);
+    z-index: 1; /* Fica acima dos preenchimentos */
+    box-shadow: 0 0 5px rgba(0,0,0,0.3);
+}
+
+
+/* Botões */
 button {
-    padding: 18px 35px; /* Bem maiores */
-    font-size: 1.3em; /* Fonte maior */
-    font-weight: 700; /* Negrito (Poppins) */
+    padding: 15px 30px; /* Ligeiramente menor que antes para caber melhor */
+    font-size: 1.2em;
+    font-weight: 700;
     cursor: pointer;
-    margin: 10px 5px; /* Mais margem */
+    margin: 10px 5px;
     border: none;
-    border-radius: 12px; /* Mais arredondado */
+    border-radius: 10px;
     color: white;
-    text-shadow: 1px 1px 2px rgba(0,0,0,0.4); /* Sombra no texto */
-    transition: all 0.15s ease; /* Transição rápida para clique */
-    box-shadow: 0 5px 0px #00000030; /* Sombra inferior para efeito 3D */
-    position: relative; /* Para o efeito de clique */
-    outline: none; /* Remove outline padrão do navegador */
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+    transition: all 0.15s ease;
+    box-shadow: 0 4px 0px #00000030;
+    position: relative;
+    outline: none;
 }
 
 button:hover:not(:disabled) {
-    filter: brightness(1.1); /* Deixa um pouco mais brilhante */
-    transform: translateY(-2px); /* Levanta um pouco */
-    box-shadow: 0 7px 0px #00000030;
+    filter: brightness(1.1);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 0px #00000030;
 }
 
 button:active:not(:disabled) {
-    transform: translateY(2px); /* Empurra para baixo */
-    box-shadow: 0 2px 0px #00000030; /* Sombra diminui */
-    filter: brightness(0.9); /* Escurece um pouco */
+    transform: translateY(1px);
+    box-shadow: 0 2px 0px #00000030;
+    filter: brightness(0.95);
 }
 
 button:disabled {
-    background-color: #b0bec5; /* Cinza mais claro */
-    color: #607d8b;
+    background-color: #b0bec5 !important; /* Usa important para sobrescrever cores específicas */
+    color: #607d8b !important;
     cursor: not-allowed;
-    box-shadow: 0 5px 0px #78909c80; /* Sombra diferente para desabilitado */
+    box-shadow: 0 4px 0px #78909c80 !important;
     text-shadow: none;
 }
 
 /* Cores específicas dos Botões */
 #connect-button {
-    background-color: #007bff; /* Azul padrão */
-    box-shadow: 0 5px 0px #0056b3;
-}
-#connect-button:disabled { /* Estilo específico quando desabilitado se necessário */
-     background-color: #6c757d;
-     box-shadow: 0 5px 0px #495057;
+    background-color: var(--accent-color);
+    box-shadow: 0 4px 0px var(--accent-color-dark);
 }
 
 #ready-button {
-    background-color: #ffc107; /* Amarelo */
-    box-shadow: 0 5px 0px #c79100;
+    background-color: var(--warning-color);
+    box-shadow: 0 4px 0px var(--warning-color-dark);
 }
-#ready-button:hover:not(:disabled) { background-color: #ffca2c; }
-#ready-button:disabled { /* Pode mudar a cor quando espera */
-    background-color: #ffca2c; /* Mantém amarelo mas sem efeito */
-    box-shadow: 0 5px 0px #c7910080;
-}
-
 
 #click-button {
-    background-color: #28a745; /* Verde */
-    box-shadow: 0 5px 0px #19692c;
-    /* Animação sutil para chamar atenção quando ativo? */
-    /* animation: pulse 1.5s infinite ease-in-out; */
-}
-#click-button:hover:not(:disabled) { background-color: #2dbf4e; }
-#click-button:disabled {
-    background-color: #6c757d; /* Cinza quando não pode clicar */
-    box-shadow: 0 5px 0px #495057;
+    background-color: var(--player1-color); /* Botão de clique usa cor do Player 1 */
+    box-shadow: 0 4px 0px var(--player1-color-dark);
+    padding: 25px 50px; /* Botão principal bem grande */
+    font-size: 1.5em;
+    width: 80%; /* Ocupa bastante largura */
+    max-width: 350px;
 }
 
 /* Input de texto */
 input[type="text"] {
-    padding: 12px 15px; /* Mais padding */
-    margin-right: 8px;
-    border: 2px solid #ced4da; /* Borda suave */
-    border-radius: 8px; /* Arredondado */
-    font-size: 1.1em; /* Fonte maior */
+    padding: 10px 12px;
+    margin: 5px 8px 5px 0; /* Ajusta margem */
+    border: 2px solid #ced4da;
+    border-radius: 8px;
+    font-size: 1em;
     font-family: 'Poppins', sans-serif;
     outline: none;
     transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    min-width: 180px; /* Largura mínima */
 }
 input[type="text"]:focus {
-    border-color: #007bff; /* Destaca borda ao focar */
-    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25); /* Brilho suave ao focar */
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+}
+/* Agrupamento do input e botão de conectar */
+#connection-group > div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap; /* Permite quebrar linha em telas pequenas */
+    margin: 10px 0;
 }
 
-/* Textos de Status e Informação */
-#timer, #countdown, #result, #status-message, #connection-status, #my-id-label, #my-id {
-    margin-top: 15px;
-    font-size: 1.2em; /* Maior */
-    font-weight: 700; /* Negrito */
-    min-height: 1.5em;
-    color: #495057; /* Cor mais escura para leitura */
+
+/* Textos de Status, Timer, etc. */
+#timer {
+    font-size: 1.3em;
+    font-weight: 700;
+    color: var(--text-light);
+    background-color: rgba(0,0,0,0.3);
+    padding: 5px 15px;
+    border-radius: 8px;
+    margin-bottom: 15px; /* Espaço antes da barra */
+    position: absolute; /* Posiciona no topo */
+    top: 90px; /* Ajuste conforme necessário */
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10; /* Garante visibilidade */
 }
-#my-id {
-    color: #0056b3; /* Destaca o ID */
-    background-color: #e9ecef;
-    padding: 2px 8px;
-    border-radius: 5px;
-    display: inline-block; /* Para o background funcionar */
+
+#status-overlay {
+    position: absolute; /* Flutua sobre outros elementos */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 20; /* Fica acima de tudo */
+    background-color: rgba(0, 0, 0, 0.6); /* Fundo escuro semi-transparente */
+    color: var(--text-light);
+    padding: 20px 30px;
+    border-radius: 15px;
+    min-width: 250px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    /* Inicialmente escondido, controlado por JS ou visibilidade do conteúdo */
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+#status-overlay.visible {
+    opacity: 1;
+    visibility: visible;
+}
+
+#status-message, #result {
+    font-size: 1.4em;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+#result {
+     color: var(--warning-color); /* Amarelo para destaque */
 }
 
 #countdown {
-    color: #fd7e14; /* Laranja para contagem */
-    font-size: 1.8em; /* Bem grande */
-    font-weight: 700;
-    text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+    font-family: 'Luckiest Guy', cursive;
+    font-size: 5em; /* Bem grande */
+    color: var(--warning-color);
+    text-shadow: 2px 2px 0px rgba(0,0,0,0.5);
+    line-height: 1;
 }
 
-#result {
-    color: #1a7e3a; /* Verde para resultado positivo (ajustar se for derrota) */
-    font-size: 1.4em;
+#my-id {
+    color: var(--accent-color-dark);
+    background-color: #e9ecef;
+    padding: 3px 10px;
+    border-radius: 5px;
+    display: inline-block;
     font-weight: 700;
+    margin-left: 5px;
+    user-select: text; /* Permite selecionar o ID */
 }
 #connection-status {
+    font-size: 1.1em;
+    margin-top: 15px;
     color: #5a6268;
+    font-weight: bold;
 }
 
+/* Container para os botões de controle do jogo */
+.controls {
+    display: flex;
+    flex-direction: column; /* Empilha os botões */
+    align-items: center;
+    margin-top: 25px;
+    width: 100%;
+}
 
-/* Opcional: Animação de pulso para o botão de clique quando ativo */
-/* @keyframes pulse {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.05); }
-    100% { transform: scale(1); }
-} */
-
-/* Pequenos ajustes para telas menores (exemplo) */
+/* Responsividade básica */
 @media (max-width: 600px) {
     h1 {
-        font-size: 2.5em;
+        margin-bottom: 15px;
     }
-    #connection-area, #game-area {
-        min-width: 90%;
-        padding: 20px;
+    #connection-group {
+        padding: 15px;
     }
-    button {
-        padding: 15px 25px;
+     #connection-group > div {
+         flex-direction: column; /* Empilha input e botão conectar */
+     }
+     input[type="text"] {
+         margin-right: 0;
+         margin-bottom: 10px;
+         width: 80%;
+     }
+     #connect-button {
+         width: 80%;
+     }
+
+    #tug-bar-container {
+        height: 40px;
+        max-width: 95%;
+    }
+    #click-button {
+        padding: 20px 40px;
+        font-size: 1.3em;
+    }
+    #timer {
         font-size: 1.1em;
+        top: 75px; /* Ajusta posição do timer */
     }
-    input[type="text"] {
-        font-size: 1em;
-        padding: 10px 12px;
-    }
+     #status-overlay {
+         min-width: 80%;
+         padding: 15px 20px;
+     }
+     #status-message, #result { font-size: 1.2em; }
+     #countdown { font-size: 4em; }
 }
