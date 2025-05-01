@@ -192,6 +192,11 @@ button:disabled {
     font-size: 1.5em;
     width: 80%; /* Ocupa bastante largura */
     max-width: 350px;
+    /* Prevent zoom on double-tap on mobile */
+    touch-action: manipulation;
+    -webkit-user-select: none; /* Safari */
+    -moz-user-select: none; /* Firefox */
+    user-select: none;
 }
 
 /* Input de texto */
